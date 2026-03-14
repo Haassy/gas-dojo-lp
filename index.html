@@ -9,18 +9,14 @@
   <meta property="og:title" content="GAS道場 — Google Apps Script クイズで腕試し" />
   <meta property="og:description" content="500問のクイズでGASを完全マスター。段級位・ランキング・実績で楽しく学べる。" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://d2xsxph8kpxj0f.cloudfront.net/310519663164402584/JCyPKXm38a7x3yUGaTXmRG/icon-final-RQsppJTczi4rQgapbVpPK7.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="https://d2xsxph8kpxj0f.cloudfront.net/310519663164402584/JCyPKXm38a7x3yUGaTXmRG/icon-final-RQsppJTczi4rQgapbVpPK7.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231A237E'/><text x='50' y='38' text-anchor='middle' fill='%23fff' font-size='22' font-weight='bold' font-family='sans-serif'>GAS</text><text x='50' y='70' text-anchor='middle' fill='%23EF5350' font-size='24' font-weight='bold' font-family='sans-serif'>道場</text></svg>" />
   <style>
     /* ─── Reset & Base ─── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic UI', 'Meiryo', sans-serif;
       color: #202124;
       background: #FFFFFF;
       line-height: 1.7;
@@ -488,7 +484,11 @@
   <nav class="nav" id="nav">
     <div class="nav-inner">
       <a href="#" class="nav-logo">
-        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663164402584/JCyPKXm38a7x3yUGaTXmRG/icon-final-RQsppJTczi4rQgapbVpPK7.png" alt="GAS道場" />
+        <svg width="36" height="36" viewBox="0 0 100 100" style="border-radius:8px;">
+          <rect width="100" height="100" rx="20" fill="#1A237E"/>
+          <text x="50" y="38" text-anchor="middle" fill="#fff" font-size="22" font-weight="bold" font-family="sans-serif">GAS</text>
+          <text x="50" y="70" text-anchor="middle" fill="#EF5350" font-size="24" font-weight="bold" font-family="sans-serif">道場</text>
+        </svg>
         GAS道場
       </a>
       <div class="nav-links">
@@ -496,9 +496,9 @@
         <a href="#ranks">段級位</a>
         <a href="#categories">カテゴリ</a>
         <a href="#pricing">価格</a>
-        <a href="https://apps.apple.com/app/id6760271741" class="nav-cta" target="_blank" rel="noopener">
-          App Storeで入手
-        </a>
+        <span class="nav-cta" style="opacity:0.9;cursor:default;">
+          間もなく公開
+        </span>
       </div>
     </div>
   </nav>
@@ -509,7 +509,7 @@
       <div class="hero-text">
         <div class="hero-badge">
           <span class="hero-badge-dot"></span>
-          500問収録 &mdash; 買い切り ¥500
+          App Store 審査中 &mdash; 間もなく公開
         </div>
         <h1>
           GASの実力を<br /><span>500問</span>で証明せよ。
@@ -519,16 +519,16 @@
           段級位システムと全国ランキングで、楽しみながらGASを完全マスター。
         </p>
         <div class="hero-actions">
-          <a href="https://apps.apple.com/app/id6760271741" class="btn-primary" target="_blank" rel="noopener">
+          <span class="btn-primary" style="cursor:default;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-            App Storeで入手
-          </a>
+            間もなくApp Storeで公開
+          </span>
           <a href="#features" class="btn-secondary">
             詳しく見る &darr;
           </a>
         </div>
         <p class="hero-price">
-          <strong>¥500</strong> の買い切り &mdash; サブスクなし・広告なし
+          <strong>¥500</strong> の買い切り &mdash; サブスクなし・広告なし・間もなく公開
         </p>
       </div>
       <div class="hero-visual">
@@ -893,10 +893,10 @@
             <li>広告なし</li>
             <li>今後のアップデートもすべて無料</li>
           </ul>
-          <a href="https://apps.apple.com/app/id6760271741" class="pricing-cta" target="_blank" rel="noopener">
-            App Storeでダウンロード
-          </a>
-          <p class="pricing-note">iOS 16以降対応 &middot; iPhone / iPad</p>
+          <span class="pricing-cta" style="cursor:default;">
+            間もなくApp Storeで公開
+          </span>
+          <p class="pricing-note">iOS 16以降対応 &middot; iPhone / iPad &middot; 現在審査中</p>
         </div>
       </div>
     </div>
@@ -912,7 +912,7 @@
         </div>
         <div class="footer-links">
           <h4>アプリ</h4>
-          <a href="https://apps.apple.com/app/id6760271741" target="_blank" rel="noopener">GAS道場（App Store）</a>
+          <span style="opacity:0.6;">GAS道場（間もなく公開）</span>
           <a href="https://apps.apple.com/app/id6758344006" target="_blank" rel="noopener">GASpedia（無料）</a>
         </div>
         <div class="footer-links">
