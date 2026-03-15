@@ -243,18 +243,114 @@
     }
     .hero-price strong { color: #C4954A; font-size: 15px; }
 
-    /* Hero visual - 看板 (kanban sign) */
+    /* Hero visual - iPhone mockup */
     .hero-visual { flex-shrink: 0; position: relative; }
-    .hero-icon-display {
-      width: 280px; height: 340px;
-      display: flex; align-items: center; justify-content: center;
+    .hero-phone {
+      width: 280px; height: 580px;
+      background: #1a1a1a;
+      border-radius: 44px;
+      border: 4px solid #333;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1) inset;
+      overflow: hidden; position: relative;
+    }
+    .phone-notch {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 130px; height: 30px;
+      background: #1a1a1a; border-radius: 0 0 20px 20px; z-index: 2;
+    }
+    .phone-dynamic-island {
+      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+      width: 90px; height: 26px;
+      background: #000; border-radius: 20px; z-index: 3;
+    }
+    .phone-screen {
+      position: absolute; inset: 4px; border-radius: 40px;
+      background: linear-gradient(180deg, #2A1C0C 0%, #1E1408 100%);
+      overflow: hidden; padding: 56px 16px 16px;
+    }
+    .phone-app-header {
+      text-align: center; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .phone-app-header img { width: 28px; height: 28px; border-radius: 6px; }
+    .phone-app-header-title {
+      font-size: 17px; font-weight: 800; color: #C4954A;
+      font-family: 'Yu Mincho', 'YuMincho', serif;
+      letter-spacing: 2px;
+    }
+    .phone-rank-card {
+      background: linear-gradient(135deg, #8B6914 0%, #C4954A 50%, #8B6914 100%);
+      border-radius: 14px; padding: 14px;
+      margin-bottom: 12px; text-align: center;
+      border: 2px solid #5C4310;
       position: relative;
     }
-    .hero-icon-display img {
-      width: 240px; height: auto;
-      border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(196,149,74,0.1);
+    .phone-rank-card::before {
+      content: '';
+      position: absolute; inset: 0; border-radius: 12px;
+      background: repeating-linear-gradient(
+        90deg, transparent, transparent 6px,
+        rgba(0,0,0,0.04) 6px, rgba(0,0,0,0.04) 7px
+      );
+      pointer-events: none;
     }
+    .phone-rank-name {
+      font-size: 24px; font-weight: 900; color: #fff;
+      font-family: 'Yu Mincho', 'YuMincho', serif;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      letter-spacing: 2px;
+    }
+    .phone-rank-title {
+      font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 2px;
+      letter-spacing: 1px;
+    }
+    .phone-stats { display: flex; gap: 8px; margin-bottom: 12px; }
+    .phone-stat {
+      flex: 1; background: rgba(196,149,74,0.1);
+      border-radius: 10px; padding: 10px 6px; text-align: center;
+      border: 1px solid rgba(196,149,74,0.2);
+    }
+    .phone-stat-value {
+      font-size: 18px; font-weight: 800; color: #C4954A;
+      font-family: 'Yu Mincho', 'YuMincho', serif;
+    }
+    .phone-stat-label { font-size: 9px; color: #8B7355; margin-top: 2px; letter-spacing: 0.5px; }
+    .phone-quiz-card {
+      background: rgba(196,149,74,0.06); border-radius: 12px;
+      padding: 14px; border: 1px solid rgba(196,149,74,0.15);
+    }
+    .phone-quiz-label {
+      font-size: 9px; color: #8B6914; font-weight: 700;
+      letter-spacing: 1px; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .phone-quiz-q {
+      font-size: 11px; color: #E8E0D0; font-weight: 600;
+      margin-bottom: 10px; line-height: 1.6;
+      font-family: system-ui, sans-serif;
+    }
+    .phone-quiz-opt {
+      background: rgba(196,149,74,0.06); border: 1px solid rgba(196,149,74,0.12);
+      border-radius: 8px; padding: 8px 10px; margin-bottom: 5px;
+      font-size: 10px; color: #8B7355;
+      font-family: system-ui, sans-serif;
+    }
+    .phone-quiz-opt.correct {
+      background: rgba(52,168,83,0.15); border-color: rgba(52,168,83,0.4);
+      color: #81C995;
+    }
+    .phone-bottom-bar {
+      position: absolute; bottom: 10px; left: 16px; right: 16px;
+      display: flex; justify-content: space-around; padding: 8px 0;
+      border-top: 1px solid rgba(196,149,74,0.1);
+    }
+    .phone-tab {
+      text-align: center; font-size: 8px; color: #6B5940;
+      font-family: system-ui, sans-serif;
+    }
+    .phone-tab.active { color: #C4954A; }
+    .phone-tab-icon { font-size: 16px; margin-bottom: 2px; }
+
     /* Floating elements */
     .float-badge {
       position: absolute; padding: 10px 16px; border-radius: 2px;
@@ -269,9 +365,9 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
-    .float-xp { top: 20px; right: -50px; background: #2A1C0C; color: #C4954A; border-color: #8B6914; animation-delay: 0s; }
-    .float-streak { bottom: 60px; left: -60px; background: #B71C1C; color: #fff; animation-delay: 1s; }
-    .float-rank { top: 140px; left: -70px; background: #8B6914; color: #fff; animation-delay: 0.5s; }
+    .float-xp { top: 40px; right: -50px; background: #2A1C0C; color: #C4954A; border-color: #8B6914; animation-delay: 0s; }
+    .float-streak { bottom: 100px; left: -60px; background: #B71C1C; color: #fff; animation-delay: 1s; }
+    .float-rank { top: 200px; left: -70px; background: #8B6914; color: #fff; animation-delay: 0.5s; }
 
     /* ─── Stats Bar (木札 kifuda) ─── */
     .stats-bar {
@@ -805,12 +901,62 @@
         </p>
       </div>
       <div class="hero-visual">
-        <div class="hero-icon-display">
-          <img src="icon.png" alt="GAS道場 アイコン" onerror="this.onerror=null;this.outerHTML='<svg width=\'240\' height=\'300\' viewBox=\'0 0 240 300\' style=\'border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.5);\'><rect width=\'240\' height=\'300\' rx=\'12\' fill=\'url(%23wood)\'/><defs><linearGradient id=\'wood\' x1=\'0\' y1=\'0\' x2=\'1\' y2=\'1\'><stop offset=\'0%\' stop-color=\'%238B6914\'/><stop offset=\'50%\' stop-color=\'%23C4954A\'/><stop offset=\'100%\' stop-color=\'%238B6914\'/></linearGradient></defs><text x=\'120\' y=\'100\' text-anchor=\'middle\' fill=\'%232A1C0C\' font-size=\'56\' font-weight=\'bold\' font-family=\'serif\'>GAS</text><text x=\'120\' y=\'210\' text-anchor=\'middle\' fill=\'%232A1C0C\' font-size=\'72\' font-weight=\'bold\' font-family=\'serif\'>道場</text><rect x=\'160\' y=\'248\' width=\'50\' height=\'24\' rx=\'3\' fill=\'%23B71C1C\'/><text x=\'185\' y=\'265\' text-anchor=\'middle\' fill=\'%23fff\' font-size=\'12\' font-weight=\'bold\' font-family=\'sans-serif\'>Hassy</text></svg>';" />
-          <div class="float-badge float-xp">+10 修行値</div>
-          <div class="float-badge float-streak">七日連続!</div>
-          <div class="float-badge float-rank">昇級!</div>
+        <div class="hero-phone">
+          <div class="phone-dynamic-island"></div>
+          <div class="phone-screen">
+            <div class="phone-app-header">
+              <img src="icon.png" alt="GAS道場" />
+              <div class="phone-app-header-title">GAS道場</div>
+            </div>
+            <div class="phone-rank-card">
+              <div class="phone-rank-name">五級</div>
+              <div class="phone-rank-title">中級者</div>
+            </div>
+            <div class="phone-stats">
+              <div class="phone-stat">
+                <div class="phone-stat-value">1,580</div>
+                <div class="phone-stat-label">修行値</div>
+              </div>
+              <div class="phone-stat">
+                <div class="phone-stat-value">7</div>
+                <div class="phone-stat-label">連続日数</div>
+              </div>
+              <div class="phone-stat">
+                <div class="phone-stat-value">155</div>
+                <div class="phone-stat-label">正解数</div>
+              </div>
+            </div>
+            <div class="phone-quiz-card">
+              <div class="phone-quiz-label">&#x1F4DC; スプレッドシート操作</div>
+              <div class="phone-quiz-q">SpreadsheetApp.getActiveSpreadsheet() の戻り値は？</div>
+              <div class="phone-quiz-opt">Range</div>
+              <div class="phone-quiz-opt correct">&#x2713; Spreadsheet</div>
+              <div class="phone-quiz-opt">Sheet</div>
+              <div class="phone-quiz-opt">Cell</div>
+            </div>
+            <div class="phone-bottom-bar">
+              <div class="phone-tab active">
+                <div class="phone-tab-icon">&#x1F3EF;</div>
+                道場
+              </div>
+              <div class="phone-tab">
+                <div class="phone-tab-icon">&#x1F94B;</div>
+                鍛錬
+              </div>
+              <div class="phone-tab">
+                <div class="phone-tab-icon">&#x1F3C6;</div>
+                番付
+              </div>
+              <div class="phone-tab">
+                <div class="phone-tab-icon">&#x1F31F;</div>
+                実績
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="float-badge float-xp">+10 修行値</div>
+        <div class="float-badge float-streak">七日連続!</div>
+        <div class="float-badge float-rank">昇級!</div>
       </div>
     </div>
   </section>
