@@ -11,252 +11,393 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231A237E'/><text x='50' y='38' text-anchor='middle' fill='%23fff' font-size='22' font-weight='bold' font-family='sans-serif'>GAS</text><text x='50' y='70' text-anchor='middle' fill='%23EF5350' font-size='24' font-weight='bold' font-family='sans-serif'>道場</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700;900&family=Zen+Old+Mincho:wght@400;700;900&display=swap" rel="stylesheet" />
   <style>
+    /* ═══════════════════════════════════════════════
+       GAS道場 LP — Premium Redesign
+       ═══════════════════════════════════════════════ */
+
     /* ─── Reset & Base ─── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; font-size: 16px; }
     body {
-      font-family: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', 'Hiragino Mincho Pro', 'Noto Serif JP', serif;
+      font-family: 'Noto Serif JP', 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', serif;
       color: #2C1A0E;
-      background: #F5EDE0;
+      background: #0D0A06;
       line-height: 1.8;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; height: auto; }
+    ::selection { background: rgba(196,149,74,0.3); color: #F5E6CC; }
+
+    /* ─── CSS Custom Properties ─── */
+    :root {
+      --gold: #C4954A;
+      --gold-light: #E8C882;
+      --gold-dark: #8B6914;
+      --crimson: #B71C1C;
+      --crimson-light: #EF5350;
+      --ink: #1a1008;
+      --parchment: #F5EDE0;
+      --parchment-dark: #EDE4D4;
+      --dark-bg: #0D0A06;
+      --dark-surface: #1A1510;
+      --dark-card: #231E16;
+      --text-primary: #F5E6CC;
+      --text-secondary: rgba(245,230,204,0.7);
+      --text-muted: rgba(245,230,204,0.4);
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --shadow-glow: 0 0 60px rgba(196,149,74,0.15);
+      --shadow-card: 0 8px 32px rgba(0,0,0,0.4);
+      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
     /* ─── Utility ─── */
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .text-center { text-align: center; }
     .sr-only { position: absolute; width: 1px; height: 1px; clip: rect(0,0,0,0); overflow: hidden; }
 
-    /* ─── 和紙テクスチャ背景 ─── */
+    /* ─── Noise Texture Overlay ─── */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      opacity: 0.06;
+      opacity: 0.03;
       background-image:
-        url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
       background-size: 200px 200px;
     }
     body > * { position: relative; z-index: 1; }
 
-    /* ─── 墨色テキスト ─── */
-    .sumi-heading {
-      font-family: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', serif;
-      font-weight: 900;
-      color: #1a1008;
-      letter-spacing: 3px;
-    }
-
-    /* ─── 朱印スタンプ ─── */
-    .seal-stamp {
-      display: inline-flex; align-items: center; justify-content: center;
-      background: #B71C1C;
+    /* ─── Section Common ─── */
+    .section-label {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--crimson), #D32F2F);
       color: #fff;
-      border: 2px solid #8B1515;
-      border-radius: 4px;
-      padding: 4px 10px;
+      padding: 6px 20px;
+      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .section-label::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid #D32F2F;
+    }
+    .section-title {
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      font-size: clamp(28px, 4vw, 44px);
       font-weight: 900;
-      font-size: 13px;
-      letter-spacing: 2px;
-      box-shadow: 0 2px 8px rgba(183,28,28,0.3);
-      transform: rotate(-3deg);
+      color: var(--text-primary);
+      letter-spacing: 3px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 2;
+      max-width: 600px;
+      margin: 0 auto 48px;
     }
 
-    /* ─── 波模様ディバイダー ─── */
-    .wave-divider {
+    /* ─── Elegant Divider ─── */
+    .divider {
       width: 100%;
-      height: 40px;
-      background: transparent;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       overflow: hidden;
     }
-    .wave-divider::before {
+    .divider::before {
       content: '';
       position: absolute;
-      left: 0; right: 0; top: 50%;
+      left: 10%; right: 10%; top: 50%;
       height: 1px;
-      background: repeating-linear-gradient(
-        90deg,
-        transparent, transparent 4px,
-        #C4954A 4px, #C4954A 12px,
-        transparent 12px, transparent 16px
-      );
-      opacity: 0.4;
+      background: linear-gradient(90deg, transparent, rgba(196,149,74,0.3), transparent);
     }
-    .wave-divider::after {
-      content: '〜〜〜';
-      position: absolute;
-      left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
-      background: #F5EDE0;
-      padding: 0 20px;
-      color: #C4954A;
-      font-size: 16px;
-      letter-spacing: 8px;
-      opacity: 0.6;
+    .divider-icon {
+      width: 40px; height: 40px;
+      background: var(--dark-bg);
+      border: 1px solid rgba(196,149,74,0.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      color: var(--gold);
+      position: relative;
+      z-index: 1;
     }
 
-    /* ─── 雲模様 (セクション装飾) ─── */
-    .kumo-deco {
-      position: absolute;
-      width: 120px; height: 40px;
-      opacity: 0.06;
-      background:
-        radial-gradient(circle at 30% 50%, #8B6914 20px, transparent 20px),
-        radial-gradient(circle at 50% 40%, #8B6914 25px, transparent 25px),
-        radial-gradient(circle at 70% 50%, #8B6914 20px, transparent 20px);
-    }
-
-    /* ─── Navigation (暖簾 noren style) ─── */
+    /* ─── Navigation ─── */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(42,28,12,0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 3px solid #8B6914;
-      transition: box-shadow 0.3s;
+      background: rgba(13,10,6,0.6);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid rgba(196,149,74,0.1);
+      transition: all 0.4s var(--transition-smooth);
     }
-    .nav.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .nav.scrolled {
+      background: rgba(13,10,6,0.92);
+      border-bottom-color: rgba(196,149,74,0.25);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    }
     .nav-inner {
       display: flex; align-items: center; justify-content: space-between;
-      max-width: 1100px; margin: 0 auto; padding: 10px 24px;
+      max-width: 1200px; margin: 0 auto; padding: 14px 24px;
     }
     .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      font-weight: 800; font-size: 18px; color: #F5E6CC;
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-      letter-spacing: 2px;
+      display: flex; align-items: center; gap: 12px;
+      font-weight: 900; font-size: 18px; color: var(--text-primary);
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      letter-spacing: 3px;
     }
-    .nav-logo img { width: 40px; height: 40px; border-radius: 6px; }
-    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-logo img {
+      width: 36px; height: 36px; border-radius: var(--radius-sm);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
     .nav-links a {
-      font-size: 14px; font-weight: 600; color: #C4954A;
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-      letter-spacing: 1px;
-      transition: color 0.2s;
+      font-size: 13px; font-weight: 600; color: var(--text-muted);
+      letter-spacing: 1.5px;
+      transition: color 0.3s;
       position: relative;
+      padding-bottom: 4px;
     }
     .nav-links a::after {
       content: '';
-      position: absolute; bottom: -4px; left: 0; right: 0;
-      height: 2px; background: #B71C1C; transform: scaleX(0);
-      transition: transform 0.3s;
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), var(--crimson-light));
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s var(--transition-smooth);
     }
-    .nav-links a:hover { color: #F5E6CC; }
-    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
     .nav-cta {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: #B71C1C; color: #fff; padding: 8px 20px;
-      border-radius: 2px; font-size: 13px; font-weight: 700;
-      border: 1px solid #8B1515;
-      letter-spacing: 1px;
-      transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--crimson), #D32F2F);
+      color: #fff; padding: 10px 24px;
+      border-radius: var(--radius-sm); font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px;
+      transition: all 0.3s var(--transition-smooth);
+      box-shadow: 0 4px 16px rgba(183,28,28,0.3);
+      border: none;
     }
-    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(183,28,28,0.4); }
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(183,28,28,0.4);
+    }
 
-    /* ─── Hero (巻物 makimono scroll style) ─── */
+    /* ─── Mobile Menu ─── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none; border: none;
+      cursor: pointer; padding: 8px;
+    }
+    .nav-toggle span {
+      display: block; width: 22px; height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* ─── Hero ─── */
     .hero {
       position: relative;
-      padding: 140px 0 80px;
-      background: linear-gradient(180deg, #2A1C0C 0%, #3D2A14 30%, #4A3320 60%, #2A1C0C 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      background: radial-gradient(ellipse at 20% 50%, rgba(139,105,20,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 30%, rgba(183,28,28,0.06) 0%, transparent 50%),
+                  linear-gradient(180deg, #0D0A06 0%, #1A1510 50%, #0D0A06 100%);
       overflow: hidden;
     }
-    .hero::before {
-      content: '';
+    /* Animated grid lines */
+    .hero-grid {
       position: absolute; inset: 0;
-      background:
-        repeating-linear-gradient(
-          90deg,
-          transparent, transparent 14px,
-          rgba(0,0,0,0.03) 14px, rgba(0,0,0,0.03) 15px
-        ),
-        radial-gradient(circle at 20% 80%, rgba(183,28,28,0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(196,149,74,0.08) 0%, transparent 50%);
+      background-image:
+        linear-gradient(rgba(196,149,74,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(196,149,74,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+    /* Floating particles */
+    .hero-particles {
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0;
+      animation: float-particle linear infinite;
+    }
+    @keyframes float-particle {
+      0% { opacity: 0; transform: translateY(100vh) scale(0); }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+    }
+    /* Radial glow */
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,149,74,0.08) 0%, transparent 70%);
+      top: 50%; left: 30%;
+      transform: translate(-50%, -50%);
+      animation: glow-pulse 6s ease-in-out infinite;
+    }
+    @keyframes glow-pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
     }
     .hero::after {
       content: '';
-      position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
-      background: linear-gradient(to bottom, transparent, #F5EDE0);
+      position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+      background: linear-gradient(to bottom, transparent, var(--dark-bg));
+      pointer-events: none;
     }
     .hero-inner {
-      position: relative; z-index: 1;
-      display: flex; align-items: center; gap: 60px;
-      max-width: 1100px; margin: 0 auto; padding: 0 24px;
+      position: relative; z-index: 2;
+      display: flex; align-items: center; gap: 80px;
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
     }
     .hero-text { flex: 1; }
     .hero-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(183,28,28,0.2); border: 1px solid rgba(183,28,28,0.4);
-      color: #EF9A9A; padding: 6px 14px; border-radius: 2px;
-      font-size: 13px; font-weight: 600; margin-bottom: 24px;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(183,28,28,0.12);
+      border: 1px solid rgba(183,28,28,0.25);
+      color: #EF9A9A; padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 12px; font-weight: 600; margin-bottom: 32px;
       letter-spacing: 1px;
+      backdrop-filter: blur(10px);
     }
     .hero-badge-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: #EF5350;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--crimson-light);
       animation: pulse 2s infinite;
+      box-shadow: 0 0 12px rgba(239,83,80,0.6);
     }
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+      0%, 100% { opacity: 1; box-shadow: 0 0 12px rgba(239,83,80,0.6); }
+      50% { opacity: 0.5; box-shadow: 0 0 4px rgba(239,83,80,0.3); }
     }
     .hero h1 {
-      font-family: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', serif;
-      font-size: clamp(34px, 5vw, 58px);
-      font-weight: 900; color: #F5E6CC;
-      line-height: 1.4; margin-bottom: 20px;
-      letter-spacing: 4px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      font-size: clamp(36px, 5.5vw, 64px);
+      font-weight: 900; color: var(--text-primary);
+      line-height: 1.35; margin-bottom: 24px;
+      letter-spacing: 5px;
     }
-    .hero h1 span {
-      color: #EF5350;
-      text-shadow: 0 0 30px rgba(239,83,80,0.4);
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--crimson-light), #FF8A80);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(239,83,80,0.3));
     }
     .hero-sub {
-      font-size: 17px; color: rgba(245,230,204,0.8);
-      line-height: 2; margin-bottom: 36px; max-width: 500px;
+      font-size: 16px; color: var(--text-secondary);
+      line-height: 2.2; margin-bottom: 40px; max-width: 520px;
       letter-spacing: 1px;
     }
-    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
     .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #B71C1C; color: #fff; padding: 14px 32px;
-      border-radius: 2px; font-size: 16px; font-weight: 700;
-      border: 1px solid #8B1515;
-      letter-spacing: 1px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 20px rgba(183,28,28,0.4);
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--crimson), #D32F2F);
+      color: #fff; padding: 16px 36px;
+      border-radius: var(--radius-sm); font-size: 15px; font-weight: 700;
+      letter-spacing: 1.5px;
+      transition: all 0.3s var(--transition-smooth);
+      box-shadow: 0 8px 32px rgba(183,28,28,0.35);
+      border: none;
+      position: relative;
+      overflow: hidden;
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(183,28,28,0.5); }
+    .btn-primary::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+    .btn-primary:hover::before { transform: translateX(100%); }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(183,28,28,0.45);
+    }
     .btn-secondary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(196,149,74,0.15); border: 1px solid rgba(196,149,74,0.4);
-      color: #C4954A; padding: 14px 28px;
-      border-radius: 2px; font-size: 16px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(196,149,74,0.08);
+      border: 1px solid rgba(196,149,74,0.25);
+      color: var(--gold); padding: 16px 32px;
+      border-radius: var(--radius-sm); font-size: 15px; font-weight: 600;
       letter-spacing: 1px;
-      transition: background 0.2s;
+      transition: all 0.3s var(--transition-smooth);
+      backdrop-filter: blur(10px);
     }
-    .btn-secondary:hover { background: rgba(196,149,74,0.25); }
+    .btn-secondary:hover {
+      background: rgba(196,149,74,0.15);
+      border-color: rgba(196,149,74,0.4);
+      transform: translateY(-1px);
+    }
     .hero-price {
-      margin-top: 16px; font-size: 13px; color: rgba(245,230,204,0.5);
+      margin-top: 24px; font-size: 13px; color: var(--text-muted);
+      letter-spacing: 1px;
     }
-    .hero-price strong { color: #C4954A; font-size: 15px; }
+    .hero-price strong {
+      color: var(--gold);
+      font-size: 16px;
+      font-weight: 700;
+    }
 
-    /* Hero visual - iPhone mockup */
+    /* ─── Hero Phone Mockup ─── */
     .hero-visual { flex-shrink: 0; position: relative; }
     .hero-phone {
       width: 280px; height: 580px;
-      background: #1a1a1a;
+      background: #000;
       border-radius: 44px;
-      border: 4px solid #333;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1) inset;
+      border: 3px solid #333;
+      box-shadow:
+        0 60px 120px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.05) inset,
+        0 0 80px rgba(196,149,74,0.1);
       overflow: hidden; position: relative;
+      transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+      transition: transform 0.6s var(--transition-smooth);
     }
-    .phone-notch {
-      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 130px; height: 30px;
-      background: #1a1a1a; border-radius: 0 0 20px 20px; z-index: 2;
+    .hero-phone:hover {
+      transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
     }
     .phone-dynamic-island {
       position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
@@ -265,629 +406,773 @@
     }
     .phone-screen {
       position: absolute; inset: 4px; border-radius: 40px;
-      background: linear-gradient(180deg, #2A1C0C 0%, #1E1408 100%);
+      background: linear-gradient(180deg, #1A1510 0%, #0D0A06 100%);
       overflow: hidden; padding: 56px 16px 16px;
     }
     .phone-app-header {
       text-align: center; margin-bottom: 16px;
       display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .phone-app-header img { width: 28px; height: 28px; border-radius: 6px; }
+    .phone-app-header img { width: 24px; height: 24px; border-radius: 4px; }
     .phone-app-header-title {
-      font-size: 17px; font-weight: 800; color: #C4954A;
-      font-family: 'Yu Mincho', 'YuMincho', serif;
+      font-size: 14px; font-weight: 800; color: var(--text-primary);
       letter-spacing: 2px;
     }
     .phone-rank-card {
-      background: linear-gradient(135deg, #8B6914 0%, #C4954A 50%, #8B6914 100%);
-      border-radius: 14px; padding: 14px;
-      margin-bottom: 12px; text-align: center;
-      border: 2px solid #5C4310;
-      position: relative;
-    }
-    .phone-rank-card::before {
-      content: '';
-      position: absolute; inset: 0; border-radius: 12px;
-      background: repeating-linear-gradient(
-        90deg, transparent, transparent 6px,
-        rgba(0,0,0,0.04) 6px, rgba(0,0,0,0.04) 7px
-      );
-      pointer-events: none;
+      background: linear-gradient(145deg, #8B6914, #C4954A, #A0782C);
+      border-radius: var(--radius-md); padding: 16px; text-align: center;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 16px rgba(139,105,20,0.3);
     }
     .phone-rank-name {
-      font-size: 24px; font-weight: 900; color: #fff;
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-      letter-spacing: 2px;
+      font-size: 22px; font-weight: 900; color: #fff;
+      font-family: 'Zen Old Mincho', serif;
+      letter-spacing: 4px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
-    .phone-rank-title {
-      font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 2px;
-      letter-spacing: 1px;
+    .phone-rank-title { font-size: 11px; color: rgba(255,255,255,0.8); letter-spacing: 2px; }
+    .phone-stats {
+      display: flex; gap: 8px; margin-bottom: 12px;
     }
-    .phone-stats { display: flex; gap: 8px; margin-bottom: 12px; }
     .phone-stat {
-      flex: 1; background: rgba(196,149,74,0.1);
-      border-radius: 10px; padding: 10px 6px; text-align: center;
-      border: 1px solid rgba(196,149,74,0.2);
+      flex: 1; text-align: center;
+      background: rgba(196,149,74,0.08);
+      border: 1px solid rgba(196,149,74,0.15);
+      border-radius: var(--radius-sm); padding: 8px 4px;
     }
     .phone-stat-value {
-      font-size: 18px; font-weight: 800; color: #C4954A;
-      font-family: 'Yu Mincho', 'YuMincho', serif;
+      font-size: 16px; font-weight: 900; color: var(--gold-light);
+      font-family: 'Zen Old Mincho', serif;
     }
-    .phone-stat-label { font-size: 9px; color: #8B7355; margin-top: 2px; letter-spacing: 0.5px; }
+    .phone-stat-label { font-size: 9px; color: var(--text-muted); letter-spacing: 1px; }
     .phone-quiz-card {
-      background: rgba(196,149,74,0.06); border-radius: 12px;
-      padding: 14px; border: 1px solid rgba(196,149,74,0.15);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(196,149,74,0.1);
+      border-radius: var(--radius-sm); padding: 12px;
     }
     .phone-quiz-label {
-      font-size: 9px; color: #8B6914; font-weight: 700;
-      letter-spacing: 1px; margin-bottom: 6px;
-      display: flex; align-items: center; gap: 4px;
+      font-size: 10px; color: var(--gold); margin-bottom: 6px;
+      font-weight: 700; letter-spacing: 1px;
     }
     .phone-quiz-q {
-      font-size: 11px; color: #E8E0D0; font-weight: 600;
-      margin-bottom: 10px; line-height: 1.6;
-      font-family: system-ui, sans-serif;
+      font-size: 11px; color: var(--text-primary); margin-bottom: 8px;
+      line-height: 1.5;
     }
     .phone-quiz-opt {
-      background: rgba(196,149,74,0.06); border: 1px solid rgba(196,149,74,0.12);
-      border-radius: 8px; padding: 8px 10px; margin-bottom: 5px;
-      font-size: 10px; color: #8B7355;
-      font-family: system-ui, sans-serif;
+      font-size: 10px; color: var(--text-muted);
+      padding: 6px 10px; margin-bottom: 4px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      background: rgba(255,255,255,0.02);
     }
     .phone-quiz-opt.correct {
-      background: rgba(52,168,83,0.15); border-color: rgba(52,168,83,0.4);
-      color: #81C995;
+      background: rgba(76,175,80,0.15);
+      border-color: rgba(76,175,80,0.3);
+      color: #81C784;
+      font-weight: 700;
     }
     .phone-bottom-bar {
-      position: absolute; bottom: 10px; left: 16px; right: 16px;
-      display: flex; justify-content: space-around; padding: 8px 0;
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: flex; padding: 8px 0 20px;
+      background: rgba(13,10,6,0.95);
       border-top: 1px solid rgba(196,149,74,0.1);
     }
     .phone-tab {
-      text-align: center; font-size: 8px; color: #6B5940;
-      font-family: system-ui, sans-serif;
+      flex: 1; text-align: center; font-size: 9px;
+      color: var(--text-muted); letter-spacing: 0.5px;
     }
-    .phone-tab.active { color: #C4954A; }
-    .phone-tab-icon { font-size: 16px; margin-bottom: 2px; }
+    .phone-tab.active { color: var(--gold); }
+    .phone-tab-icon { font-size: 18px; margin-bottom: 2px; }
 
-    /* Floating elements */
+    /* Floating badges */
     .float-badge {
-      position: absolute; padding: 10px 16px; border-radius: 2px;
-      font-size: 13px; font-weight: 700;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      animation: float 3s ease-in-out infinite;
-      border: 1px solid rgba(255,255,255,0.15);
+      position: absolute;
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 12px; font-weight: 700;
       letter-spacing: 1px;
-      font-family: 'Yu Gothic', 'YuGothic', sans-serif;
+      backdrop-filter: blur(16px);
+      animation: float-badge 4s ease-in-out infinite;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
-    @keyframes float {
+    @keyframes float-badge {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
-    .float-xp { top: 40px; right: -50px; background: #2A1C0C; color: #C4954A; border-color: #8B6914; animation-delay: 0s; }
-    .float-streak { bottom: 100px; left: -60px; background: #B71C1C; color: #fff; animation-delay: 1s; }
-    .float-rank { top: 200px; left: -70px; background: #8B6914; color: #fff; animation-delay: 0.5s; }
+    .float-xp {
+      top: 20px; right: -30px;
+      background: rgba(196,149,74,0.15);
+      border: 1px solid rgba(196,149,74,0.3);
+      color: var(--gold-light);
+      animation-delay: 0s;
+    }
+    .float-streak {
+      top: 50%; left: -60px;
+      background: rgba(76,175,80,0.15);
+      border: 1px solid rgba(76,175,80,0.3);
+      color: #81C784;
+      animation-delay: 1.3s;
+    }
+    .float-rank {
+      bottom: 120px; right: -40px;
+      background: rgba(183,28,28,0.15);
+      border: 1px solid rgba(183,28,28,0.3);
+      color: #EF9A9A;
+      animation-delay: 2.6s;
+    }
 
-    /* ─── Stats Bar (木札 kifuda) ─── */
+    /* ─── Stats Bar ─── */
     .stats-bar {
-      background: linear-gradient(145deg, #8B6914 0%, #A0782C 20%, #C4954A 45%, #B8883E 55%, #9A7328 80%, #7A5A18 100%);
-      padding: 40px 0;
-      border-top: 3px solid #5C4310;
-      border-bottom: 3px solid #5C4310;
+      padding: 80px 0;
+      background: var(--dark-bg);
       position: relative;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
     .stats-bar::before {
       content: '';
       position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        90deg, transparent, transparent 10px,
-        rgba(0,0,0,0.04) 10px, rgba(0,0,0,0.04) 11px
-      );
-      pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(196,149,74,0.04) 0%, transparent 70%);
     }
-    .stats-grid { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; position: relative; }
-    .stat-item { text-align: center; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 32px 16px;
+      background: rgba(196,149,74,0.03);
+      border: 1px solid rgba(196,149,74,0.08);
+      border-radius: var(--radius-md);
+      transition: all 0.4s var(--transition-smooth);
+    }
+    .stat-item:hover {
+      background: rgba(196,149,74,0.06);
+      border-color: rgba(196,149,74,0.2);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+    }
     .stat-number {
-      font-size: 44px; font-weight: 900; color: #fff;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      font-family: 'Yu Mincho', 'YuMincho', serif;
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 900;
+      background: linear-gradient(180deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 8px;
     }
     .stat-label {
-      font-size: 14px; color: rgba(255,255,255,0.85); font-weight: 600;
-      margin-top: 4px; letter-spacing: 2px;
-    }
-
-    /* ─── Section Styles ─── */
-    .section-label {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: #B71C1C; color: #fff;
-      border: 2px solid #8B1515;
-      padding: 6px 18px; border-radius: 2px;
-      font-size: 13px; font-weight: 700; margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
       letter-spacing: 2px;
-      transform: rotate(-1deg);
-      box-shadow: 0 2px 8px rgba(183,28,28,0.2);
-    }
-    .section-title {
-      font-family: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', serif;
-      font-size: clamp(26px, 3.5vw, 42px);
-      font-weight: 900; line-height: 1.5; margin-bottom: 16px;
-      color: #1a1008; letter-spacing: 3px;
-    }
-    .section-desc {
-      font-size: 16px; color: #5C4A32; max-width: 600px;
-      margin: 0 auto 60px; line-height: 2;
-      letter-spacing: 0.5px;
+      font-weight: 600;
     }
 
-    /* ─── Features (巻物風カード) ─── */
-    .features {
-      padding: 100px 0;
-      background: #F5EDE0;
-      position: relative;
-    }
-    .features::before {
-      content: '';
-      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 1px; height: 60px;
-      background: linear-gradient(to bottom, #C4954A, transparent);
-      opacity: 0.4;
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-    }
-    .feature-card {
-      background: #FDF8F0;
-      border: 1px solid #D4C4A8;
-      border-radius: 4px; padding: 32px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-    .feature-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, #8B6914, #C4954A, #8B6914);
-      border-radius: 4px 4px 0 0;
-    }
-    .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
-    }
-    .feature-icon {
-      width: 52px; height: 52px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; margin-bottom: 16px;
-    }
-    .feature-card h3 {
-      font-size: 18px; font-weight: 800; margin-bottom: 8px; color: #2A1C0C;
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-      letter-spacing: 1px;
-    }
-    .feature-card p { font-size: 14px; color: #6B5940; line-height: 1.8; }
-
-    /* ─── Rank System (段級位) ─── */
-    .rank-section {
-      padding: 100px 0;
-      background: linear-gradient(180deg, #EDE4D4 0%, #F5EDE0 50%, #EDE4D4 100%);
-      position: relative;
-    }
-    .rank-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px; max-width: 960px; margin: 0 auto;
-    }
-    .rank-card {
-      display: flex; align-items: center; gap: 14px;
-      background: #FDF8F0;
-      border: 1px solid #D4C4A8;
-      border-radius: 4px; padding: 16px 20px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    }
-    .rank-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    }
-    .rank-badge {
-      width: 44px; height: 44px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 900; color: #fff; flex-shrink: 0;
-      border: 2px solid rgba(0,0,0,0.15);
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-    }
-    .rank-info { flex: 1; }
-    .rank-name {
-      font-size: 17px; font-weight: 900;
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-      letter-spacing: 1px;
-    }
-    .rank-title-text { font-size: 12px; color: #8B7355; letter-spacing: 1px; }
-    .rank-req { font-size: 11px; color: #A89880; margin-top: 2px; }
-
-    /* ─── Categories (出題カテゴリ) ─── */
-    .categories {
-      padding: 100px 0;
-      background: #F5EDE0;
-    }
-    .cat-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px; max-width: 960px; margin: 0 auto;
-    }
-    .cat-card {
-      display: flex; align-items: center; gap: 14px;
-      background: #FDF8F0;
-      border: 1px solid #D4C4A8;
-      border-radius: 4px; padding: 16px 20px;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    }
-    .cat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    }
-    .cat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .cat-name { font-size: 14px; font-weight: 700; flex: 1; color: #2A1C0C; letter-spacing: 0.5px; }
-    .cat-count { font-size: 13px; color: #8B7355; font-weight: 600; }
-
-    /* ─── GASpedia Integration (連携) ─── */
-    .integration {
-      padding: 100px 0;
-      background: linear-gradient(180deg, #EDE4D4 0%, #E5DBC8 50%, #EDE4D4 100%);
-    }
-    .integration-inner { display: flex; align-items: center; gap: 60px; }
-    .integration-text { flex: 1; }
-    .integration-text h2 {
-      font-family: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', serif;
-      font-size: clamp(24px, 3vw, 36px);
-      font-weight: 900; margin-bottom: 16px; color: #1a1008;
-      letter-spacing: 2px; line-height: 1.5;
-    }
-    .integration-text p {
-      font-size: 15px; color: #5C4A32; line-height: 2; margin-bottom: 24px;
-    }
-    .integration-flow { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-    .flow-step {
-      background: #FDF8F0;
-      border: 1px solid #D4C4A8;
-      border-radius: 4px; padding: 16px 20px; text-align: center;
-      flex: 1; min-width: 140px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    }
-    .flow-step-icon { font-size: 28px; margin-bottom: 6px; }
-    .flow-step-label { font-size: 13px; font-weight: 700; color: #2A1C0C; letter-spacing: 1px; }
-    .flow-step-desc { font-size: 11px; color: #8B7355; margin-top: 4px; }
-    .flow-arrow { font-size: 20px; color: #C4954A; flex-shrink: 0; }
-    .integration-visual { flex-shrink: 0; }
-    .integration-mockup {
-      width: 200px; height: 400px;
-      background: #FDF8F0; border-radius: 30px;
-      border: 2px solid #D4C4A8;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-    }
-    .integration-mockup-inner { text-align: center; padding: 20px; }
-    .integration-mockup-inner .icon-large { font-size: 48px; margin-bottom: 12px; }
-    .integration-mockup-inner .app-name {
-      font-size: 16px; font-weight: 800; color: #2A1C0C;
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-    }
-    .integration-mockup-inner .app-desc { font-size: 11px; color: #8B7355; margin-top: 4px; }
-
-    /* ─── Social Proof (修行者の声) ─── */
-    .social-proof {
-      padding: 100px 0;
-      background: #F5EDE0;
-      position: relative;
-    }
-    .proof-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px; margin-top: 40px;
-    }
-    .proof-card {
-      background: #FDF8F0;
-      border-radius: 4px; padding: 28px;
-      border: 1px solid #D4C4A8;
-      position: relative;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-    .proof-card::before {
-      content: '\300C';
-      position: absolute; top: 12px; left: 16px;
-      font-size: 40px; color: #C4954A; opacity: 0.3;
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-      line-height: 1;
-    }
-    .proof-stars { color: #C4954A; font-size: 16px; margin-bottom: 12px; letter-spacing: 2px; }
-    .proof-text {
-      font-size: 14px; color: #4A3A28; line-height: 1.9; margin-bottom: 16px;
-      padding-left: 4px;
-    }
-    .proof-author {
-      font-size: 13px; font-weight: 700; color: #8B6914;
-      letter-spacing: 1px;
-      padding-top: 12px;
-      border-top: 1px solid #E8DCC8;
-    }
-    .proof-context {
-      font-size: 11px; color: #A89880; margin-top: 4px;
-      letter-spacing: 0.5px;
-    }
-
-    /* ─── Pricing CTA (入門の巻) ─── */
-    .pricing {
-      padding: 100px 0;
-      background: linear-gradient(180deg, #EDE4D4 0%, #E5DBC8 50%, #EDE4D4 100%);
-    }
-    .pricing-card {
-      max-width: 480px; margin: 0 auto;
-      background: #FDF8F0;
-      border: 2px solid #C4954A;
-      border-radius: 4px; overflow: hidden;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
-    }
-    .pricing-header {
-      background: linear-gradient(145deg, #8B6914 0%, #A0782C 30%, #C4954A 50%, #A0782C 70%, #8B6914 100%);
-      padding: 36px 32px; text-align: center; color: #fff;
-      border-bottom: 3px solid #5C4310;
-      position: relative;
-    }
-    .pricing-header::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        90deg, transparent, transparent 10px,
-        rgba(0,0,0,0.04) 10px, rgba(0,0,0,0.04) 11px
-      );
-      pointer-events: none;
-    }
-    .pricing-header h3 {
-      font-size: 22px; font-weight: 900; margin-bottom: 8px;
-      position: relative; text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-      letter-spacing: 3px;
-    }
-    .pricing-amount {
-      display: flex; align-items: baseline; justify-content: center; gap: 4px;
-      position: relative;
-    }
-    .pricing-yen { font-size: 22px; font-weight: 700; }
-    .pricing-number {
-      font-size: 60px; font-weight: 900; line-height: 1;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-    }
-    .pricing-once {
-      font-size: 14px; color: rgba(255,255,255,0.8); margin-top: 6px;
-      position: relative; letter-spacing: 2px;
-    }
-    .pricing-body { padding: 32px; }
-    .pricing-features { list-style: none; margin-bottom: 28px; }
-    .pricing-features li {
-      display: flex; align-items: center; gap: 10px;
-      padding: 8px 0; font-size: 14px; color: #2A1C0C;
-    }
-    .pricing-features li::before {
-      content: '\2713'; display: flex; align-items: center; justify-content: center;
-      width: 22px; height: 22px; border-radius: 50%;
-      background: rgba(139,105,20,0.1); color: #8B6914; font-size: 12px; font-weight: 800;
-      flex-shrink: 0;
-      border: 1px solid rgba(139,105,20,0.2);
-    }
-    .pricing-cta {
-      display: block; width: 100%; padding: 16px;
-      background: #B71C1C; color: #fff; border: 1px solid #8B1515;
-      border-radius: 2px; font-size: 17px; font-weight: 800;
-      cursor: pointer; text-align: center;
-      letter-spacing: 2px;
-      transition: background 0.2s, transform 0.2s;
-      box-shadow: 0 4px 16px rgba(183,28,28,0.3);
-    }
-    .pricing-cta:hover { background: #9B1818; transform: translateY(-1px); }
-    .pricing-note {
-      text-align: center; margin-top: 12px;
-      font-size: 12px; color: #A89880;
-    }
-
-    /* ─── Footer (道場の奥) ─── */
-    .footer {
-      background: #2A1C0C;
-      color: #A89880;
-      padding: 48px 0 32px;
-      border-top: 3px solid #8B6914;
-    }
-    .footer-inner {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      flex-wrap: wrap; gap: 32px;
-    }
-    .footer-brand { max-width: 320px; }
-    .footer-brand-name {
-      font-size: 20px; font-weight: 800; color: #C4954A;
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-      letter-spacing: 3px; margin-bottom: 8px;
-    }
-    .footer-brand p { font-size: 13px; line-height: 1.8; color: #8B7355; }
-    .footer-seal {
-      display: inline-block; margin-top: 14px;
-      border: 2px solid #B71C1C; color: #B71C1C;
-      padding: 4px 14px; border-radius: 2px;
-      font-weight: 900; font-size: 13px; letter-spacing: 3px;
-      transform: rotate(-2deg);
-      opacity: 0.8;
-    }
-    .footer-links h4 {
-      font-size: 13px; font-weight: 700; color: #C4954A;
-      margin-bottom: 12px; letter-spacing: 2px;
-    }
-    .footer-links a {
-      display: block; font-size: 13px; padding: 4px 0;
-      color: #8B7355;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: #C4954A; }
-    .footer-bottom {
-      border-top: 1px solid rgba(196,149,74,0.15);
-      margin-top: 32px; padding-top: 20px;
-      text-align: center; font-size: 12px; color: #6B5940;
-    }
-
-    /* ─── 道場訓 (Dojo motto banner) ─── */
+    /* ─── Dojo Motto ─── */
     .dojo-motto {
-      padding: 60px 0;
-      background: #2A1C0C;
+      padding: 80px 0;
       text-align: center;
       position: relative;
       overflow: hidden;
+      background: linear-gradient(180deg, var(--dark-bg), var(--dark-surface), var(--dark-bg));
     }
     .dojo-motto::before {
       content: '';
       position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        90deg, transparent, transparent 14px,
-        rgba(255,255,255,0.02) 14px, rgba(255,255,255,0.02) 15px
-      );
+      background: radial-gradient(ellipse at center, rgba(196,149,74,0.06) 0%, transparent 60%);
     }
     .dojo-motto-text {
-      font-family: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', serif;
-      font-size: clamp(20px, 3vw, 32px);
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      font-size: clamp(22px, 3.5vw, 38px);
       font-weight: 900;
-      color: #C4954A;
-      letter-spacing: 6px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 8px;
       line-height: 2;
       position: relative;
     }
     .dojo-motto-text span {
       display: block;
       font-size: 14px;
-      color: #8B7355;
-      letter-spacing: 3px;
-      margin-top: 8px;
+      -webkit-text-fill-color: var(--text-muted);
+      letter-spacing: 4px;
+      margin-top: 12px;
       font-weight: 600;
     }
 
-    /* ─── 修行の道 (Journey section) ─── */
+    /* ─── Journey ─── */
     .journey {
-      padding: 80px 0;
-      background: #F5EDE0;
+      padding: 100px 0;
+      background: var(--dark-bg);
       position: relative;
     }
     .journey-steps {
       display: flex;
       justify-content: center;
       gap: 0;
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       position: relative;
     }
     .journey-steps::before {
       content: '';
       position: absolute;
-      top: 32px; left: 15%; right: 15%;
+      top: 40px; left: 15%; right: 15%;
       height: 2px;
-      background: linear-gradient(90deg, transparent, #C4954A, transparent);
-      opacity: 0.3;
+      background: linear-gradient(90deg, transparent, rgba(196,149,74,0.3), transparent);
     }
     .journey-step {
       flex: 1;
       text-align: center;
       position: relative;
-      padding: 0 12px;
+      padding: 0 16px;
     }
     .journey-step-num {
-      width: 64px; height: 64px;
+      width: 80px; height: 80px;
       border-radius: 50%;
-      background: #FDF8F0;
-      border: 3px solid #C4954A;
+      background: var(--dark-card);
+      border: 2px solid rgba(196,149,74,0.3);
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 28px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin: 0 auto 20px;
+      font-size: 32px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3), inset 0 0 20px rgba(196,149,74,0.05);
+      transition: all 0.4s var(--transition-smooth);
+    }
+    .journey-step:hover .journey-step-num {
+      border-color: var(--gold);
+      box-shadow: 0 8px 32px rgba(196,149,74,0.2), inset 0 0 20px rgba(196,149,74,0.1);
+      transform: translateY(-4px);
     }
     .journey-step h4 {
-      font-family: 'Yu Mincho', 'YuMincho', serif;
-      font-size: 16px; font-weight: 800; color: #2A1C0C;
-      margin-bottom: 6px; letter-spacing: 1px;
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      font-size: 17px; font-weight: 900; color: var(--text-primary);
+      margin-bottom: 8px; letter-spacing: 2px;
     }
     .journey-step p {
-      font-size: 12px; color: #8B7355; line-height: 1.7;
+      font-size: 13px; color: var(--text-muted); line-height: 1.8;
+    }
+
+    /* ─── Features ─── */
+    .features {
+      padding: 100px 0;
+      background: var(--dark-bg);
+      position: relative;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--dark-card);
+      border: 1px solid rgba(196,149,74,0.08);
+      border-radius: var(--radius-md);
+      padding: 36px 28px;
+      transition: all 0.4s var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--crimson-light), var(--gold));
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .feature-card:hover {
+      border-color: rgba(196,149,74,0.2);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), var(--shadow-glow);
+    }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 56px; height: 56px;
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      margin-bottom: 20px;
+      background: rgba(196,149,74,0.06);
+      border: 1px solid rgba(196,149,74,0.12);
+    }
+    .feature-card h3 {
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      font-size: 18px; font-weight: 900;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.9;
+    }
+
+    /* ─── Rank System ─── */
+    .rank-section {
+      padding: 100px 0;
+      background: var(--dark-bg);
+      position: relative;
+    }
+    .rank-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .rank-card {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--dark-card);
+      border: 1px solid rgba(196,149,74,0.08);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      transition: all 0.3s var(--transition-smooth);
+    }
+    .rank-card:hover {
+      border-color: rgba(196,149,74,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .rank-card.master {
+      grid-column: 1 / -1;
+      max-width: 280px;
+      border-color: rgba(183,28,28,0.3);
+      background: linear-gradient(135deg, var(--dark-card), rgba(183,28,28,0.08));
+    }
+    .rank-card.master:hover {
+      border-color: rgba(183,28,28,0.5);
+      box-shadow: 0 8px 32px rgba(183,28,28,0.2);
+    }
+    .rank-badge {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 11px; font-weight: 900;
+      flex-shrink: 0;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .rank-info { flex: 1; }
+    .rank-name {
+      font-size: 16px; font-weight: 900;
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      letter-spacing: 1px;
+    }
+    .rank-title-text { font-size: 11px; color: var(--text-muted); letter-spacing: 1px; }
+    .rank-req { font-size: 10px; color: var(--text-muted); margin-top: 2px; opacity: 0.6; }
+
+    /* ─── Categories ─── */
+    .categories {
+      padding: 100px 0;
+      background: var(--dark-bg);
+    }
+    .cat-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px; max-width: 960px; margin: 0 auto;
+    }
+    .cat-card {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--dark-card);
+      border: 1px solid rgba(196,149,74,0.06);
+      border-radius: var(--radius-sm); padding: 18px 22px;
+      transition: all 0.3s var(--transition-smooth);
+    }
+    .cat-card:hover {
+      border-color: rgba(196,149,74,0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .cat-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .cat-name { font-size: 14px; font-weight: 700; flex: 1; color: var(--text-primary); letter-spacing: 0.5px; }
+    .cat-count { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+
+    /* ─── Integration ─── */
+    .integration {
+      padding: 100px 0;
+      background: linear-gradient(180deg, var(--dark-bg), var(--dark-surface), var(--dark-bg));
+    }
+    .integration-inner { display: flex; align-items: center; gap: 80px; }
+    .integration-text { flex: 1; }
+    .integration-text h2 {
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 900; margin-bottom: 20px; color: var(--text-primary);
+      letter-spacing: 3px; line-height: 1.5;
+    }
+    .integration-text p {
+      font-size: 15px; color: var(--text-secondary); line-height: 2; margin-bottom: 32px;
+    }
+    .integration-flow { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .flow-step {
+      background: var(--dark-card);
+      border: 1px solid rgba(196,149,74,0.1);
+      border-radius: var(--radius-sm); padding: 20px 24px; text-align: center;
+      flex: 1; min-width: 140px;
+      transition: all 0.3s var(--transition-smooth);
+    }
+    .flow-step:hover {
+      border-color: rgba(196,149,74,0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .flow-step-icon { font-size: 32px; margin-bottom: 8px; }
+    .flow-step-label { font-size: 13px; font-weight: 700; color: var(--text-primary); letter-spacing: 1px; }
+    .flow-step-desc { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .flow-arrow { font-size: 20px; color: var(--gold); flex-shrink: 0; opacity: 0.5; }
+    .integration-visual { flex-shrink: 0; }
+    .integration-mockup {
+      width: 220px; height: 420px;
+      background: var(--dark-card);
+      border-radius: 36px;
+      border: 2px solid rgba(196,149,74,0.15);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 60px rgba(196,149,74,0.05);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      transition: all 0.4s var(--transition-smooth);
+    }
+    .integration-mockup:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 80px rgba(196,149,74,0.08);
+    }
+    .integration-mockup-inner { text-align: center; padding: 20px; }
+    .integration-mockup-inner .icon-large { font-size: 56px; margin-bottom: 16px; }
+    .integration-mockup-inner .app-name {
+      font-size: 18px; font-weight: 900; color: var(--text-primary);
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      letter-spacing: 2px;
+    }
+    .integration-mockup-inner .app-desc { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.6; }
+
+    /* ─── Social Proof ─── */
+    .social-proof {
+      padding: 100px 0;
+      background: var(--dark-bg);
+      position: relative;
+    }
+    .proof-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .proof-card {
+      background: var(--dark-card);
+      border-radius: var(--radius-md); padding: 32px;
+      border: 1px solid rgba(196,149,74,0.08);
+      position: relative;
+      transition: all 0.4s var(--transition-smooth);
+    }
+    .proof-card:hover {
+      border-color: rgba(196,149,74,0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    }
+    .proof-card::before {
+      content: '\300C';
+      position: absolute; top: 16px; left: 20px;
+      font-size: 48px; color: var(--gold); opacity: 0.15;
+      font-family: 'Zen Old Mincho', serif;
+      line-height: 1;
+    }
+    .proof-stars {
+      color: var(--gold);
+      font-size: 16px; margin-bottom: 16px; letter-spacing: 3px;
+      filter: drop-shadow(0 0 4px rgba(196,149,74,0.3));
+    }
+    .proof-text {
+      font-size: 14px; color: var(--text-secondary); line-height: 2; margin-bottom: 20px;
+      padding-left: 4px;
+    }
+    .proof-author {
+      font-size: 13px; font-weight: 700; color: var(--gold);
+      letter-spacing: 1px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(196,149,74,0.1);
+    }
+    .proof-context {
+      font-size: 11px; color: var(--text-muted); margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── Pricing ─── */
+    .pricing {
+      padding: 100px 0;
+      background: linear-gradient(180deg, var(--dark-bg), var(--dark-surface), var(--dark-bg));
+      position: relative;
+    }
+    .pricing::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(196,149,74,0.04) 0%, transparent 60%);
+    }
+    .pricing-card {
+      max-width: 500px; margin: 0 auto;
+      background: var(--dark-card);
+      border: 1px solid rgba(196,149,74,0.15);
+      border-radius: var(--radius-lg); overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.4), var(--shadow-glow);
+      position: relative;
+    }
+    .pricing-header {
+      background: linear-gradient(145deg, #5C4310, #8B6914, #C4954A, #8B6914, #5C4310);
+      background-size: 200% 200%;
+      animation: shimmer-gold 6s ease-in-out infinite;
+      padding: 44px 36px; text-align: center; color: #fff;
+      position: relative;
+    }
+    @keyframes shimmer-gold {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .pricing-header h3 {
+      font-size: 20px; font-weight: 900; margin-bottom: 12px;
+      position: relative; text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      letter-spacing: 4px;
+    }
+    .pricing-amount {
+      display: flex; align-items: baseline; justify-content: center; gap: 4px;
+      position: relative;
+    }
+    .pricing-yen { font-size: 24px; font-weight: 700; }
+    .pricing-number {
+      font-size: 68px; font-weight: 900; line-height: 1;
+      text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+    }
+    .pricing-once {
+      font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 8px;
+      position: relative; letter-spacing: 3px;
+    }
+    .pricing-body { padding: 36px; }
+    .pricing-features { list-style: none; margin-bottom: 32px; }
+    .pricing-features li {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0; font-size: 14px; color: var(--text-secondary);
+      border-bottom: 1px solid rgba(196,149,74,0.05);
+    }
+    .pricing-features li:last-child { border-bottom: none; }
+    .pricing-features li::before {
+      content: '\2713'; display: flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(196,149,74,0.08); color: var(--gold); font-size: 11px; font-weight: 800;
+      flex-shrink: 0;
+      border: 1px solid rgba(196,149,74,0.15);
+    }
+    .pricing-cta {
+      display: block; width: 100%; padding: 18px;
+      background: linear-gradient(135deg, var(--crimson), #D32F2F);
+      color: #fff; border: none;
+      border-radius: var(--radius-sm); font-size: 16px; font-weight: 800;
+      cursor: pointer; text-align: center;
+      letter-spacing: 2px;
+      transition: all 0.3s var(--transition-smooth);
+      box-shadow: 0 8px 24px rgba(183,28,28,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .pricing-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+    .pricing-cta:hover::before { transform: translateX(100%); }
+    .pricing-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(183,28,28,0.4);
+    }
+    .pricing-note {
+      text-align: center; margin-top: 16px;
+      font-size: 12px; color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    /* ─── Footer ─── */
+    .footer {
+      background: var(--dark-surface);
+      color: var(--text-muted);
+      padding: 60px 0 40px;
+      border-top: 1px solid rgba(196,149,74,0.1);
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 40px;
+    }
+    .footer-brand { max-width: 340px; }
+    .footer-brand-name {
+      font-size: 22px; font-weight: 900; color: var(--gold);
+      font-family: 'Zen Old Mincho', 'Noto Serif JP', serif;
+      letter-spacing: 4px; margin-bottom: 12px;
+    }
+    .footer-brand p { font-size: 13px; line-height: 1.9; color: var(--text-muted); }
+    .footer-seal {
+      display: inline-block; margin-top: 16px;
+      border: 2px solid var(--crimson); color: var(--crimson);
+      padding: 4px 16px; border-radius: 2px;
+      font-weight: 900; font-size: 13px; letter-spacing: 4px;
+      transform: rotate(-2deg);
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+    .footer-seal:hover { opacity: 1; }
+    .footer-links h4 {
+      font-size: 12px; font-weight: 700; color: var(--gold);
+      margin-bottom: 16px; letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .footer-links a {
+      display: block; font-size: 13px; padding: 5px 0;
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--text-primary); }
+    .footer-bottom {
+      border-top: 1px solid rgba(196,149,74,0.08);
+      margin-top: 40px; padding-top: 24px;
+      text-align: center; font-size: 11px; color: rgba(245,230,204,0.25);
+      letter-spacing: 1px;
     }
 
     /* ─── Animations ─── */
-    .fade-in {
-      opacity: 0; transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+    .fade-up {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
     }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-    .fade-in-delay-1 { transition-delay: 0.1s; }
-    .fade-in-delay-2 { transition-delay: 0.2s; }
-    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up-delay-1 { transition-delay: 0.1s; }
+    .fade-up-delay-2 { transition-delay: 0.2s; }
+    .fade-up-delay-3 { transition-delay: 0.3s; }
+    .fade-up-delay-4 { transition-delay: 0.4s; }
+    .fade-up-delay-5 { transition-delay: 0.5s; }
+
+    .scale-in {
+      opacity: 0; transform: scale(0.9);
+      transition: opacity 0.6s var(--transition-smooth), transform 0.6s var(--transition-smooth);
+    }
+    .scale-in.visible { opacity: 1; transform: scale(1); }
+
+    /* Count-up animation */
+    .count-up { display: inline-block; }
+
+    /* ─── Scroll Progress ─── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 2px;
+      background: transparent;
+    }
+    .scroll-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--crimson-light));
+      transition: width 0.1s;
+    }
 
     /* ─── Responsive ─── */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .rank-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
     @media (max-width: 768px) {
-      .hero-inner { flex-direction: column; text-align: center; }
+      .hero-inner { flex-direction: column; text-align: center; gap: 48px; }
       .hero-sub { margin-left: auto; margin-right: auto; }
       .hero-actions { justify-content: center; }
       .hero-visual { display: none; }
-      .nav-links { display: none; }
-      .stats-grid { gap: 24px; }
-      .integration-inner { flex-direction: column; text-align: center; }
+      .nav-links { 
+        display: none;
+        position: fixed;
+        top: 64px; left: 0; right: 0;
+        background: rgba(13,10,6,0.98);
+        backdrop-filter: blur(24px);
+        flex-direction: column;
+        padding: 24px;
+        gap: 16px;
+        border-bottom: 1px solid rgba(196,149,74,0.15);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 15px; padding: 8px 0; }
+      .nav-toggle { display: flex; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .rank-grid { grid-template-columns: repeat(2, 1fr); }
+      .integration-inner { flex-direction: column; text-align: center; gap: 40px; }
       .integration-visual { display: none; }
       .flow-arrow { display: none; }
       .footer-inner { flex-direction: column; }
       .journey-steps { flex-direction: column; gap: 32px; }
       .journey-steps::before { display: none; }
-      .wave-divider::after { font-size: 12px; }
       .proof-grid { grid-template-columns: 1fr; }
+      .section-title { letter-spacing: 1px; }
+      .hero h1 { letter-spacing: 2px; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .stat-item { padding: 20px 12px; }
+      .rank-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .rank-card { padding: 12px 14px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation (暖簾 noren) -->
+  <!-- Scroll Progress -->
+  <div class="scroll-progress">
+    <div class="scroll-progress-bar" id="scrollProgress"></div>
+  </div>
+
+  <!-- Navigation -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
       <a href="#" class="nav-logo">
-        <img src="icon.png" alt="GAS道場" width="40" height="40" style="border-radius:6px;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';" />
-        <svg width="40" height="40" viewBox="0 0 100 100" style="border-radius:6px;display:none;">
-          <rect width="100" height="100" rx="12" fill="#C4954A"/>
-          <text x="50" y="38" text-anchor="middle" fill="#2A1C0C" font-size="22" font-weight="bold" font-family="serif">GAS</text>
-          <text x="50" y="72" text-anchor="middle" fill="#2A1C0C" font-size="26" font-weight="bold" font-family="serif">道場</text>
-        </svg>
+        <img src="icon.png" alt="GAS道場" width="36" height="36" onerror="this.style.display='none';" />
         GAS道場
       </a>
-      <div class="nav-links">
+      <button class="nav-toggle" id="navToggle" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks">
         <a href="#features">修行内容</a>
         <a href="#ranks">段級位</a>
         <a href="#categories">出題範囲</a>
         <a href="#pricing">入門</a>
-        <span class="nav-cta" style="opacity:0.9;cursor:default;">
+        <span class="nav-cta" style="cursor:default;">
           間もなく開門
         </span>
       </div>
     </div>
   </nav>
 
-  <!-- Hero (道場の門) -->
+  <!-- Hero -->
   <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-particles" id="heroParticles"></div>
+    <div class="hero-glow"></div>
     <div class="hero-inner">
       <div class="hero-text">
-        <div class="hero-badge">
+        <div class="hero-badge fade-up">
           <span class="hero-badge-dot"></span>
           App Store 審査中 &mdash; 間もなく開門
         </div>
-        <h1>
-          GASの腕を<br /><span>五百問</span>で<br />磨き上げよ。
+        <h1 class="fade-up fade-up-delay-1">
+          GASの腕を<br /><span class="accent">五百問</span>で<br />磨き上げよ。
         </h1>
-        <p class="hero-sub">
+        <p class="hero-sub fade-up fade-up-delay-2">
           Google Apps Scriptの技をクイズ形式で鍛錬。<br />
           段級位・全国番付・日々の稽古で、<br />
           己のGAS力を極めよ。
         </p>
-        <div class="hero-actions">
+        <div class="hero-actions fade-up fade-up-delay-3">
           <span class="btn-primary" style="cursor:default;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
             間もなくApp Storeで開門
@@ -896,11 +1181,11 @@
             修行内容を見る &darr;
           </a>
         </div>
-        <p class="hero-price">
+        <p class="hero-price fade-up fade-up-delay-4">
           <strong>&yen;500</strong> の買い切り &mdash; 月謝なし・広告なし
         </p>
       </div>
-      <div class="hero-visual">
+      <div class="hero-visual fade-up fade-up-delay-3">
         <div class="hero-phone">
           <div class="phone-dynamic-island"></div>
           <div class="phone-screen">
@@ -961,30 +1246,32 @@
     </div>
   </section>
 
-  <!-- Stats Bar (木札) -->
+  <!-- Stats Bar -->
   <section class="stats-bar">
-    <div class="stats-grid">
-      <div class="stat-item fade-in">
-        <div class="stat-number">五百</div>
-        <div class="stat-label">問の鍛錬</div>
-      </div>
-      <div class="stat-item fade-in fade-in-delay-1">
-        <div class="stat-number">十二</div>
-        <div class="stat-label">の修行科目</div>
-      </div>
-      <div class="stat-item fade-in fade-in-delay-2">
-        <div class="stat-number">十三</div>
-        <div class="stat-label">段階の位</div>
-      </div>
-      <div class="stat-item fade-in fade-in-delay-3">
-        <div class="stat-number">廿六</div>
-        <div class="stat-label">以上の実績</div>
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item fade-up">
+          <div class="stat-number">五百</div>
+          <div class="stat-label">問の鍛錬</div>
+        </div>
+        <div class="stat-item fade-up fade-up-delay-1">
+          <div class="stat-number">十二</div>
+          <div class="stat-label">の修行科目</div>
+        </div>
+        <div class="stat-item fade-up fade-up-delay-2">
+          <div class="stat-number">十三</div>
+          <div class="stat-label">段階の位</div>
+        </div>
+        <div class="stat-item fade-up fade-up-delay-3">
+          <div class="stat-number">廿六</div>
+          <div class="stat-label">以上の実績</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 道場訓 (Dojo motto) -->
-  <section class="dojo-motto fade-in">
+  <!-- Dojo Motto -->
+  <section class="dojo-motto fade-up">
     <div class="container">
       <div class="dojo-motto-text">
         一日一練、千日の功。
@@ -993,35 +1280,35 @@
     </div>
   </section>
 
-  <div class="wave-divider"></div>
+  <div class="divider"><div class="divider-icon">&#x2728;</div></div>
 
-  <!-- 修行の道 (Journey) -->
+  <!-- Journey -->
   <section class="journey">
     <div class="container text-center">
-      <div class="section-label">修行の道</div>
-      <h2 class="section-title">入門から免許皆伝へ。</h2>
-      <p class="section-desc">
+      <div class="section-label fade-up">修行の道</div>
+      <h2 class="section-title fade-up fade-up-delay-1">入門から免許皆伝へ。</h2>
+      <p class="section-desc fade-up fade-up-delay-2">
         四つの段階を経て、GASの技を磨き上げます。
       </p>
     </div>
     <div class="container">
       <div class="journey-steps">
-        <div class="journey-step fade-in">
+        <div class="journey-step fade-up">
           <div class="journey-step-num">&#x1F3EF;</div>
           <h4>入門</h4>
           <p>GAS道場の門をくぐり<br />基礎から学び始める</p>
         </div>
-        <div class="journey-step fade-in fade-in-delay-1">
+        <div class="journey-step fade-up fade-up-delay-1">
           <div class="journey-step-num">&#x1F94B;</div>
           <h4>鍛錬</h4>
           <p>500問のクイズで<br />日々の修行を積む</p>
         </div>
-        <div class="journey-step fade-in fade-in-delay-2">
+        <div class="journey-step fade-up fade-up-delay-2">
           <div class="journey-step-num">&#x1F525;</div>
           <h4>昇級</h4>
           <p>段級位を上げ<br />実力を証明する</p>
         </div>
-        <div class="journey-step fade-in fade-in-delay-3">
+        <div class="journey-step fade-up fade-up-delay-3">
           <div class="journey-step-num">&#x1F3AF;</div>
           <h4>免許皆伝</h4>
           <p>全500問を制覇し<br />GAS Masterの称号を得る</p>
@@ -1030,47 +1317,47 @@
     </div>
   </section>
 
-  <div class="wave-divider"></div>
+  <div class="divider"><div class="divider-icon">&#x1F4DC;</div></div>
 
-  <!-- Features (修行内容) -->
+  <!-- Features -->
   <section class="features" id="features">
     <div class="container text-center">
-      <div class="section-label">修行内容</div>
-      <h2 class="section-title">学びを、修行に変える。</h2>
-      <p class="section-desc">
+      <div class="section-label fade-up">修行内容</div>
+      <h2 class="section-title fade-up fade-up-delay-1">学びを、修行に変える。</h2>
+      <p class="section-desc fade-up fade-up-delay-2">
         ただのクイズアプリにあらず。段級位、連続修行、実績、番付で<br />
         GAS修行を「やめられない」鍛錬に変えます。
       </p>
     </div>
     <div class="container">
       <div class="features-grid">
-        <div class="feature-card fade-in">
-          <div class="feature-icon" style="background:rgba(139,105,20,0.1); border:2px solid rgba(139,105,20,0.2);">&#x1F4DC;</div>
+        <div class="feature-card fade-up">
+          <div class="feature-icon">&#x1F4DC;</div>
           <h3>五百問の鍛錬帳</h3>
           <p>SpreadsheetApp, GmailApp, DriveApp など実務で使うメソッドを網羅。四択形式でサクサク解ける。</p>
         </div>
-        <div class="feature-card fade-in fade-in-delay-1">
-          <div class="feature-icon" style="background:rgba(183,28,28,0.1); border:2px solid rgba(183,28,28,0.2);">&#x1F94B;</div>
+        <div class="feature-card fade-up fade-up-delay-1">
+          <div class="feature-icon" style="background:rgba(183,28,28,0.08); border-color:rgba(183,28,28,0.15);">&#x1F94B;</div>
           <h3>段級位制度</h3>
           <p>十級（入門者）から三段（GAS Master）まで十三段階。正解数に応じて昇級。あなたの実力を可視化。</p>
         </div>
-        <div class="feature-card fade-in fade-in-delay-2">
-          <div class="feature-icon" style="background:rgba(183,28,28,0.08); border:2px solid rgba(183,28,28,0.15);">&#x1F525;</div>
+        <div class="feature-card fade-up fade-up-delay-2">
+          <div class="feature-icon" style="background:rgba(239,83,80,0.08); border-color:rgba(239,83,80,0.15);">&#x1F525;</div>
           <h3>連続修行 & 修行値</h3>
           <p>毎日の修行で連続日数を積み上げ。修行値（XP）を獲得して成長を実感。</p>
         </div>
-        <div class="feature-card fade-in">
-          <div class="feature-icon" style="background:rgba(139,105,20,0.1); border:2px solid rgba(139,105,20,0.2);">&#x1F3C6;</div>
+        <div class="feature-card fade-up">
+          <div class="feature-icon">&#x1F3C6;</div>
           <h3>全国番付</h3>
           <p>全国の修行者と技を競い合える。週間番付と総合番付で常に向上心を維持。</p>
         </div>
-        <div class="feature-card fade-in fade-in-delay-1">
-          <div class="feature-icon" style="background:rgba(183,28,28,0.1); border:2px solid rgba(183,28,28,0.2);">&#x1F31F;</div>
+        <div class="feature-card fade-up fade-up-delay-1">
+          <div class="feature-icon" style="background:rgba(183,28,28,0.08); border-color:rgba(183,28,28,0.15);">&#x1F31F;</div>
           <h3>実績 & 日課修行</h3>
           <p>二十六種類以上の実績巻物を収集。毎日の日課修行で腕試し＆ボーナス修行値を獲得。</p>
         </div>
-        <div class="feature-card fade-in fade-in-delay-2">
-          <div class="feature-icon" style="background:rgba(139,105,20,0.1); border:2px solid rgba(139,105,20,0.2);">&#x1F4D6;</div>
+        <div class="feature-card fade-up fade-up-delay-2">
+          <div class="feature-icon">&#x1F4D6;</div>
           <h3>GASpedia連携</h3>
           <p>間違えた問題から、姉妹アプリGASpedia（無料）の該当メソッドへワンタップで遷移。復習に最適。</p>
         </div>
@@ -1078,120 +1365,120 @@
     </div>
   </section>
 
-  <div class="wave-divider"></div>
+  <div class="divider"><div class="divider-icon">&#x1F94B;</div></div>
 
-  <!-- Rank System (段級位) -->
+  <!-- Rank System -->
   <section class="rank-section" id="ranks">
     <div class="container text-center">
-      <div class="section-label">段級位制度</div>
-      <h2 class="section-title">十級から三段まで、<br />十三段階の修行の道。</h2>
-      <p class="section-desc">
+      <div class="section-label fade-up">段級位制度</div>
+      <h2 class="section-title fade-up fade-up-delay-1">十級から三段まで、<br />十三段階の修行の道。</h2>
+      <p class="section-desc fade-up fade-up-delay-2">
         正解数に応じて段級位が上がっていきます。<br />
         全五百問を制覇すれば、最高位「三段 — GAS Master」の免許皆伝。
       </p>
     </div>
     <div class="container">
       <div class="rank-grid">
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#5C5C5C;">十級</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#5C5C5C,#7A7A7A);">十級</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#5C5C5C;">十級</div>
+            <div class="rank-name" style="color:#8A8A8A;">十級</div>
             <div class="rank-title-text">入門者</div>
             <div class="rank-req">十問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#5C5C5C;">九級</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#5C5C5C,#7A7A7A);">九級</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#5C5C5C;">九級</div>
+            <div class="rank-name" style="color:#8A8A8A;">九級</div>
             <div class="rank-title-text">見習い</div>
             <div class="rank-req">二十五問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#6B4423;">八級</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#6B4423,#8B6040);">八級</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#6B4423;">八級</div>
+            <div class="rank-name" style="color:#A07050;">八級</div>
             <div class="rank-title-text">初学者</div>
             <div class="rank-req">五十問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#6B4423;">七級</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#6B4423,#8B6040);">七級</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#6B4423;">七級</div>
+            <div class="rank-name" style="color:#A07050;">七級</div>
             <div class="rank-title-text">学習者</div>
             <div class="rank-req">八十問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#6B4423;">六級</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#6B4423,#8B6040);">六級</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#6B4423;">六級</div>
+            <div class="rank-name" style="color:#A07050;">六級</div>
             <div class="rank-title-text">実践者</div>
             <div class="rank-req">百十五問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#8B8B8B;">五級</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#8B8B8B,#ABABAB);">五級</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#6B6B6B;">五級</div>
+            <div class="rank-name" style="color:#ABABAB;">五級</div>
             <div class="rank-title-text">中級者</div>
             <div class="rank-req">百五十五問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#8B8B8B;">四級</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#8B8B8B,#ABABAB);">四級</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#6B6B6B;">四級</div>
+            <div class="rank-name" style="color:#ABABAB;">四級</div>
             <div class="rank-title-text">熟練者</div>
             <div class="rank-req">二百問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#8B8B8B;">三級</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#8B8B8B,#ABABAB);">三級</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#6B6B6B;">三級</div>
+            <div class="rank-name" style="color:#ABABAB;">三級</div>
             <div class="rank-title-text">上級者</div>
             <div class="rank-req">二百五十問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#C4954A;">二級</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#8B6914,#C4954A);">二級</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#8B6914;">二級</div>
+            <div class="rank-name" style="color:var(--gold);">二級</div>
             <div class="rank-title-text">達人</div>
             <div class="rank-req">三百十問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#C4954A;">一級</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#8B6914,#C4954A);">一級</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#8B6914;">一級</div>
+            <div class="rank-name" style="color:var(--gold);">一級</div>
             <div class="rank-title-text">師範代</div>
             <div class="rank-req">三百八十問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#A0782C;">初段</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#A0782C,#D4A84A);">初段</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#8B6914;">初段</div>
+            <div class="rank-name" style="color:var(--gold-light);">初段</div>
             <div class="rank-title-text">師範</div>
             <div class="rank-req">四百二十問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in">
-          <div class="rank-badge" style="background:#A0782C;">二段</div>
+        <div class="rank-card fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,#A0782C,#D4A84A);">二段</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#8B6914;">二段</div>
+            <div class="rank-name" style="color:var(--gold-light);">二段</div>
             <div class="rank-title-text">免許皆伝</div>
             <div class="rank-req">四百六十問正解</div>
           </div>
         </div>
-        <div class="rank-card fade-in" style="border-color:#B71C1C; border-width:2px;">
-          <div class="rank-badge" style="background:#B71C1C;">三段</div>
+        <div class="rank-card master fade-up">
+          <div class="rank-badge" style="background:linear-gradient(135deg,var(--crimson),#D32F2F);">三段</div>
           <div class="rank-info">
-            <div class="rank-name" style="color:#B71C1C;">三段</div>
+            <div class="rank-name" style="color:var(--crimson-light);">三段</div>
             <div class="rank-title-text">GAS Master</div>
             <div class="rank-req">全五百問正解</div>
           </div>
@@ -1200,50 +1487,50 @@
     </div>
   </section>
 
-  <div class="wave-divider"></div>
+  <div class="divider"><div class="divider-icon">&#x1F3AF;</div></div>
 
-  <!-- Categories (出題範囲) -->
+  <!-- Categories -->
   <section class="categories" id="categories">
     <div class="container text-center">
-      <div class="section-label">出題範囲</div>
-      <h2 class="section-title">十二の修行科目を<br />完全制覇。</h2>
-      <p class="section-desc">
+      <div class="section-label fade-up">出題範囲</div>
+      <h2 class="section-title fade-up fade-up-delay-1">十二の修行科目を<br />完全制覇。</h2>
+      <p class="section-desc fade-up fade-up-delay-2">
         GASの主要技法をすべて網羅。苦手な分野を重点的に攻略できます。
       </p>
     </div>
     <div class="container">
       <div class="cat-grid">
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#34A853;"></div><div class="cat-name">スプレッドシート操作</div><div class="cat-count">111問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#4285F4;"></div><div class="cat-name">文字列・配列操作</div><div class="cat-count">78問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#C4954A;"></div><div class="cat-name">日付操作</div><div class="cat-count">24問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#EA4335;"></div><div class="cat-name">Gmail操作</div><div class="cat-count">50問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#C4954A;"></div><div class="cat-name">Googleドライブ</div><div class="cat-count">39問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#4285F4;"></div><div class="cat-name">Googleカレンダー</div><div class="cat-count">28問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#4285F4;"></div><div class="cat-name">Googleドキュメント</div><div class="cat-count">44問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#673AB7;"></div><div class="cat-name">Googleフォーム</div><div class="cat-count">26問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#00BCD4;"></div><div class="cat-name">外部API連携</div><div class="cat-count">20問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#607D8B;"></div><div class="cat-name">ユーティリティ</div><div class="cat-count">44問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#C4954A;"></div><div class="cat-name">Googleスライド</div><div class="cat-count">18問</div></div>
-        <div class="cat-card fade-in"><div class="cat-dot" style="background:#9C27B0;"></div><div class="cat-name">応用テクニック</div><div class="cat-count">18問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#34A853;color:#34A853;"></div><div class="cat-name">スプレッドシート操作</div><div class="cat-count">111問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#4285F4;color:#4285F4;"></div><div class="cat-name">文字列・配列操作</div><div class="cat-count">78問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#C4954A;color:#C4954A;"></div><div class="cat-name">日付操作</div><div class="cat-count">24問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#EA4335;color:#EA4335;"></div><div class="cat-name">Gmail操作</div><div class="cat-count">50問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#C4954A;color:#C4954A;"></div><div class="cat-name">Googleドライブ</div><div class="cat-count">39問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#4285F4;color:#4285F4;"></div><div class="cat-name">Googleカレンダー</div><div class="cat-count">28問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#4285F4;color:#4285F4;"></div><div class="cat-name">Googleドキュメント</div><div class="cat-count">44問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#673AB7;color:#673AB7;"></div><div class="cat-name">Googleフォーム</div><div class="cat-count">26問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#00BCD4;color:#00BCD4;"></div><div class="cat-name">外部API連携</div><div class="cat-count">20問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#607D8B;color:#607D8B;"></div><div class="cat-name">ユーティリティ</div><div class="cat-count">44問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#C4954A;color:#C4954A;"></div><div class="cat-name">Googleスライド</div><div class="cat-count">18問</div></div>
+        <div class="cat-card fade-up"><div class="cat-dot" style="background:#9C27B0;color:#9C27B0;"></div><div class="cat-name">応用テクニック</div><div class="cat-count">18問</div></div>
       </div>
     </div>
   </section>
 
-  <div class="wave-divider"></div>
+  <div class="divider"><div class="divider-icon">&#x1F4D6;</div></div>
 
-  <!-- GASpedia Integration (連携の術) -->
+  <!-- GASpedia Integration -->
   <section class="integration">
     <div class="container">
       <div class="integration-inner">
         <div class="integration-text">
-          <div class="section-label">GASpedia連携</div>
-          <h2>学ぶと試すの<br />二刀流。</h2>
-          <p>
+          <div class="section-label fade-up">GASpedia連携</div>
+          <h2 class="fade-up fade-up-delay-1">学ぶと試すの<br />二刀流。</h2>
+          <p class="fade-up fade-up-delay-2">
             姉妹アプリ「GASpedia」（無料）はGASメソッドのリファレンス辞典。
             GAS道場で間違えた問題から、該当メソッドのページにワンタップで遷移。
             理解→鍛錬→復習の最短修行ルートを実現します。
           </p>
-          <div class="integration-flow">
+          <div class="integration-flow fade-up fade-up-delay-3">
             <div class="flow-step">
               <div class="flow-step-icon">&#x1F4D6;</div>
               <div class="flow-step-label">GASpediaで学ぶ</div>
@@ -1262,13 +1549,13 @@
               <div class="flow-step-desc">GASpediaへ直行</div>
             </div>
           </div>
-          <div style="margin-top:28px;">
-            <a href="https://apps.apple.com/app/id6758344006" class="btn-primary" style="background:#2A1C0C;box-shadow:0 4px 16px rgba(0,0,0,0.2);border:2px solid #8B6914;color:#C4954A;" target="_blank" rel="noopener">
+          <div style="margin-top:36px;" class="fade-up fade-up-delay-4">
+            <a href="https://apps.apple.com/app/id6758344006" class="btn-primary" style="background:linear-gradient(135deg,#1A1510,#2A2018);box-shadow:0 8px 24px rgba(0,0,0,0.3);border:1px solid rgba(196,149,74,0.3);color:var(--gold-light);" target="_blank" rel="noopener">
               GASpediaを無料で入手 &rarr;
             </a>
           </div>
         </div>
-        <div class="integration-visual">
+        <div class="integration-visual fade-up fade-up-delay-2">
           <div class="integration-mockup">
             <div class="integration-mockup-inner">
               <div class="icon-large">&#x1F4D6;</div>
@@ -1281,33 +1568,33 @@
     </div>
   </section>
 
-  <div class="wave-divider"></div>
+  <div class="divider"><div class="divider-icon">&#x2B50;</div></div>
 
-  <!-- Social Proof (修行者の声) -->
+  <!-- Social Proof -->
   <section class="social-proof">
     <div class="container text-center">
-      <div class="section-label" style="background:#8B6914;border-color:#6B4A10;">修行者の声</div>
-      <h2 class="section-title">GASpediaの先に、<br />道場がある。</h2>
-      <p class="section-desc">
+      <div class="section-label fade-up" style="background:linear-gradient(135deg,var(--gold-dark),var(--gold));">修行者の声</div>
+      <h2 class="section-title fade-up fade-up-delay-1">GASpediaの先に、<br />道場がある。</h2>
+      <p class="section-desc fade-up fade-up-delay-2">
         GASpediaで学んだ知識を、GAS道場で試す。<br />
         その相乗効果を体感した修行者たちの声。
       </p>
     </div>
     <div class="container">
       <div class="proof-grid">
-        <div class="proof-card fade-in">
+        <div class="proof-card fade-up">
           <div class="proof-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <p class="proof-text">GASpediaでメソッドを調べてばかりだったのが、GAS道場で実際に試すことで記憶に定着するようになった。間違えた問題からGASpediaに飛べるので、復習もスムーズ。この連携が本当に便利。</p>
           <div class="proof-author">総務部 &mdash; GAS歴3ヶ月</div>
           <div class="proof-context">GASpediaユーザー → GAS道場入門</div>
         </div>
-        <div class="proof-card fade-in fade-in-delay-1">
+        <div class="proof-card fade-up fade-up-delay-1">
           <div class="proof-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <p class="proof-text">GASpediaを辞書として使っていたけど、自分がどの程度理解しているか分からなかった。GAS道場で腕試ししたら、思ったより基礎が抜けていてびっくり。段級位が上がるのが楽しくて毎朝の日課になっている。</p>
           <div class="proof-author">営業企画 &mdash; GAS歴1年</div>
           <div class="proof-context">GASpediaヘビーユーザー</div>
         </div>
-        <div class="proof-card fade-in fade-in-delay-2">
+        <div class="proof-card fade-up fade-up-delay-2">
           <div class="proof-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <p class="proof-text">GASpediaで調べる→GAS道場で解く→間違えたらGASpediaに戻る。この修行サイクルが最高。通勤の10分でサクサク鍛錬できるし、500円でこの完成度はお得すぎる。同僚にも勧めたい。</p>
           <div class="proof-author">社内SE &mdash; GAS歴2年</div>
@@ -1317,19 +1604,19 @@
     </div>
   </section>
 
-  <div class="wave-divider"></div>
+  <div class="divider"><div class="divider-icon">&#x1F3EF;</div></div>
 
-  <!-- Pricing (入門の巻) -->
+  <!-- Pricing -->
   <section class="pricing" id="pricing">
     <div class="container text-center">
-      <div class="section-label">入門案内</div>
-      <h2 class="section-title">茶一杯の値で、<br />GASを完全制覇。</h2>
-      <p class="section-desc">
+      <div class="section-label fade-up">入門案内</div>
+      <h2 class="section-title fade-up fade-up-delay-1">茶一杯の値で、<br />GASを完全制覇。</h2>
+      <p class="section-desc fade-up fade-up-delay-2">
         月謝は不要。一度の入門で、すべての修行内容を永久に利用できます。
       </p>
     </div>
     <div class="container">
-      <div class="pricing-card fade-in">
+      <div class="pricing-card scale-in">
         <div class="pricing-header">
           <h3>GAS道場 &mdash; 入門の巻</h3>
           <div class="pricing-amount">
@@ -1361,8 +1648,8 @@
     </div>
   </section>
 
-  <!-- 道場訓 (Final motto) -->
-  <section class="dojo-motto fade-in">
+  <!-- Final Motto -->
+  <section class="dojo-motto fade-up">
     <div class="container">
       <div class="dojo-motto-text">
         千里の道も、一問から。
@@ -1371,7 +1658,7 @@
     </div>
   </section>
 
-  <!-- Footer (道場の奥) -->
+  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <div class="footer-inner">
@@ -1382,7 +1669,7 @@
         </div>
         <div class="footer-links">
           <h4>道場案内</h4>
-          <span style="opacity:0.6;">GAS道場（間もなく開門）</span>
+          <span style="opacity:0.4;">GAS道場（間もなく開門）</span>
           <a href="https://apps.apple.com/app/id6758344006" target="_blank" rel="noopener">GASpedia（無料）</a>
         </div>
         <div class="footer-links">
@@ -1397,21 +1684,97 @@
     </div>
   </footer>
 
-  <!-- Scroll animation & Nav shadow -->
+  <!-- Scripts -->
   <script>
+    // ─── Scroll Animations ───
+    const observerOptions = { threshold: 0.08, rootMargin: '0px 0px -60px 0px' };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, observerOptions);
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    document.querySelectorAll('.fade-up, .scale-in').forEach(el => observer.observe(el));
 
+    // ─── Nav Scroll Effect ───
     const nav = document.getElementById('nav');
+    const scrollProgressBar = document.getElementById('scrollProgress');
+
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 10);
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+
+      // Scroll progress
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      scrollProgressBar.style.width = scrollPercent + '%';
+    }, { passive: true });
+
+    // ─── Mobile Menu ───
+    const navToggle = document.getElementById('navToggle');
+    const navLinksEl = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinksEl.classList.toggle('open');
+    });
+
+    // Close menu on link click
+    navLinksEl.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinksEl.classList.remove('open');
+      });
+    });
+
+    // ─── Hero Particles ───
+    const particlesContainer = document.getElementById('heroParticles');
+    function createParticles() {
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.width = (Math.random() * 3 + 1) + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.animationDuration = (Math.random() * 8 + 6) + 's';
+        particle.style.animationDelay = (Math.random() * 10) + 's';
+        particle.style.opacity = 0;
+        particlesContainer.appendChild(particle);
+      }
+    }
+    createParticles();
+
+    // ─── Smooth Scroll for Anchor Links ───
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ─── Active Nav Link Highlight ───
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.style.color = '';
+        if (link.getAttribute('href') === '#' + current) {
+          link.style.color = 'var(--gold-light)';
+        }
+      });
     }, { passive: true });
   </script>
 </body>
